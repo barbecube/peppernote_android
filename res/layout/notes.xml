@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" 
+    android:background="@color/white">
+
+    <LinearLayout
+        android:id="@+id/headerNotesLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="false"
+        android:animationCache="true"
+        android:gravity="left"
+        android:orientation="horizontal" 
+        android:background="@color/red">
+
+        <TextView
+            android:id="@+id/notebookNameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Notebook"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="25sp" />
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/notesList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/notesMenuLinearLayout"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/headerNotesLinearLayout"
+        android:cacheColorHint="#00000000" >
+    </ListView>
+    
+	<RelativeLayout
+        android:id="@+id/emptyNotesListView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"        
+        android:layout_below="@id/headerNotesLinearLayout"
+        android:layout_above="@+id/notesMenuLinearLayout"
+        android:layout_centerHorizontal="true"        
+        android:visibility="gone" >        
+        
+        <TextView
+            android:id="@+id/emptyNotesTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/empty_notes_list"
+            android:textAppearance="?android:attr/textAppearanceLarge" 
+            android:textColor="@color/black"/>
+    </RelativeLayout>
+    
+    <LinearLayout
+        android:id="@+id/notesMenuLinearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:background="@color/red" >
+
+        <Button
+            android:id="@+id/addNoteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add" />
+
+        <Button
+            android:id="@+id/searchNotesButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search" />
+
+        <EditText
+            android:id="@+id/searchNoteEditText"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="@string/search"
+            android:singleLine="true"
+            android:visibility="invisible" >
+
+            <requestFocus />
+        </EditText>
+
+    </LinearLayout>
+
+</RelativeLayout>

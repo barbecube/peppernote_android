@@ -1,0 +1,190 @@
+package cz.muni.fi.peppernote;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+public class DatabaseManager extends SQLiteOpenHelper  {
+	
+	// Database Version
+    private static final int DATABASE_VERSION = 2;
+ 
+    // Database Name
+    private static final String DATABASE_NAME = "PepperNoteDatabase";
+ 
+    // table names
+    private static final String TABLE_NOTEBOOKS = "notebooks";
+    private static final String TABLE_NOTES = "notes";
+    private static final String TABLE_CHANGES = "changes";
+    
+    // Table Columns names - Note
+    private static final String NOTE_ID = "id";
+    private static final String NOTE_SERVER_ID = "server_id";
+    private static final String NOTE_NOTEBOOK_ID = "notebook_id";
+    private static final String NOTE_VERSION = "version";
+    private static final String NOTE_TITLE = "title";
+    private static final String NOTE_CONTENT = "content";
+    
+    // -Notebooks
+    private static final String NOTEBOOK_ID = "id";
+    private static final String NOTEBOOK_SERVER_ID = "server_id";
+    private static final String NOTEBOOK_USER_ID = "user_id";
+    private static final String NOTEBOOK_VERSION = "version";
+    private static final String NOTEBOOK_NAME = "name";
+    
+    // -Changes
+    private static final String CHANGE_ID ="id";
+    private static final String CHANGE_TYPE_OF_CHANGE ="type_of_change";
+    private static final String CHANGE_TYPE_OF_ENTITY ="type_of_entity";
+    
+    //
+    public DatabaseManager(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
+
+	@Override
+	public void onCreate(SQLiteDatabase db) {
+		String CREATE_NOTEBOOKS_TABLE = "CREATE TABLE " + TABLE_NOTEBOOKS + "("
+                + NOTEBOOK_ID + " INTEGER PRIMARY KEY," + NOTEBOOK_NAME + " TEXT,"
+<<<<<<< .mine
+                + NOTEBOOK_SERVER_ID + " INTEGER, " + NOTEBOOK_USER_ID + " INTEGER, " 
+                + NOTEBOOK_VERSION + " INTEGER, " + "UNIQUE("+ NOTEBOOK_SERVER_ID + ") )";
+=======
+                + NOTEBOOK_SERVER_ID + " INTEGER , " + NOTEBOOK_USER_ID + " INTEGER, " 
+                + NOTEBOOK_VERSION + " INTEGER, " + " UNIQUE(NOTEBOOK_SERVER_ID) " + ")";
+>>>>>>> .r12
+        db.execSQL(CREATE_NOTEBOOKS_TABLE);
+        
+        String CREATE_NOTES_TABLE = "CREATE TABLE " + TABLE_NOTES + "("
+                + NOTE_ID + " INTEGER PRIMARY KEY," + NOTE_SERVER_ID + " INTEGER, " 
+                + NOTE_NOTEBOOK_ID + " INTEGER, " + NOTE_VERSION + " INTEGER, " 
+                + NOTE_TITLE + " TEXT, " + NOTE_CONTENT + " TEXT, " + "UNIQUE(" + NOTE_SERVER_ID + ") )";
+        db.execSQL(CREATE_NOTES_TABLE);
+        
+        String CREATE_CHANGES_TABLE = "CREATE TABLE " + TABLE_CHANGES + "("
+                + CHANGE_ID + " INTEGER PRIMARY KEY," + CHANGE_TYPE_OF_CHANGE + " INTEGER,"
+                + CHANGE_TYPE_OF_ENTITY + " INTEGER " + ")";
+        db.execSQL(CREATE_CHANGES_TABLE);
+	}
+
+	@Override
+	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVesion) {
+		// Drop older tables if existed
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NOTEBOOKS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NOTES);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CHANGES);
+        
+        // Create tables again
+        onCreate(db);
+		
+	}
+
+	
+	//
+	public void addNotebook(Notebook notebook) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		 
+	    ContentValues values = new ContentValues();
+	    values.put(NOTEBOOK_NAME, notebook.get_name());
+	    values.put(NOTEBOOK_SERVER_ID, notebook.get_server_id());
+	    values.put(NOTEBOOK_USER_ID, notebook.get_user_id());
+	    values.put(NOTEBOOK_VERSION, notebook.get_version()); 
+	 
+	    // Inserting Row
+	    db.insert(TABLE_NOTEBOOKS, null, values);
+	    db.close(); // Closing database connection
+	}
+	 
+	//
+	public Notebook getNotebook(int id) {
+		SQLiteDatabase db = this.getReadableDatabase();
+		 
+	    Cursor cursor = db.query(TABLE_NOTEBOOKS, new String[] { NOTEBOOK_ID,
+	            NOTEBOOK_SERVER_ID, NOTEBOOK_USER_ID, NOTEBOOK_VERSION, NOTEBOOK_NAME }, NOTEBOOK_ID + "=?",
+	            new String[] { String.valueOf(id) }, null, null, null, null);
+	    if (cursor != null)
+	        cursor.moveToFirst();
+	 
+	    Notebook notebook = new Notebook(Integer.parseInt(cursor.getString(0)),
+	    		Integer.parseInt(cursor.getString(1)), Integer.parseInt(cursor.getString(2)),
+	    		Integer.parseInt(cursor.getString(3)),cursor.getString(4) );
+	    
+	    return notebook;
+	}
+	 
+	//
+	public List<Notebook> getAllNotebooks() {
+		List<Notebook> notebookList = new ArrayList<Notebook>();
+	    // Select All Query
+	    String selectQuery = "SELECT  * FROM " + TABLE_NOTEBOOKS;
+	 
+	    SQLiteDatabase db = this.getWritableDatabase();
+	    Cursor cursor = db.rawQuery(selectQuery, null);
+	 
+	    // looping through all rows and adding to list
+	    if (cursor.moveToFirst()) {
+	        do {
+	            Notebook notebook = new Notebook();
+	            notebook.set_id(Integer.parseInt(cursor.getString(0)));
+	            notebook.set_name(cursor.getString(1));
+	            notebook.set_server_id(Integer.parseInt(cursor.getString(2)));
+	            notebook.set_user_id(Integer.parseInt(cursor.getString(3)));
+	            notebook.set_version(Integer.parseInt(cursor.getString(4)));
+	            
+	            
+	            notebookList.add(notebook);
+	        } while (cursor.moveToNext());
+	    }
+	 
+	    //
+	    return notebookList;
+	}
+	 
+	//
+	public int getNotebooksCount() {
+		// TODO
+		return 0;
+	}
+	//
+	public int updateNotebook(Notebook notebook) {
+		// TODO
+		return 0;
+	}
+	 
+	//
+	public void deleteNotebook(Notebook notebook) {
+		// TODO
+		return;
+	}
+
+	
+	
+	
+	
+	public void repairTables(){
+	
+		SQLiteDatabase db = this.getWritableDatabase();
+		
+		String CREATE_NOTEBOOKS_TABLE = "CREATE TABLE " + TABLE_NOTEBOOKS + "("
+                + NOTEBOOK_ID + " INTEGER PRIMARY KEY," + NOTEBOOK_NAME + " TEXT,"
+                + NOTEBOOK_SERVER_ID + " INTEGER , " + NOTEBOOK_USER_ID + " INTEGER, " 
+                + NOTEBOOK_VERSION + " INTEGER, " + " UNIQUE(NOTEBOOK_SERVER_ID) " + ")";
+        db.execSQL(CREATE_NOTEBOOKS_TABLE);
+        
+        String CREATE_NOTES_TABLE = "CREATE TABLE " + TABLE_NOTES + "("
+                + NOTE_ID + " INTEGER PRIMARY KEY," + NOTE_SERVER_ID + " INTEGER, " 
+                + NOTE_NOTEBOOK_ID + " INTEGER, " + NOTE_VERSION + " INTEGER, " 
+                + NOTE_TITLE + " TEXT, " + NOTE_CONTENT + " TEXT " + ")";
+        db.execSQL(CREATE_NOTES_TABLE);
+        
+        String CREATE_CHANGES_TABLE = "CREATE TABLE " + TABLE_CHANGES + "("
+                + CHANGE_ID + " INTEGER PRIMARY KEY," + CHANGE_TYPE_OF_CHANGE + " INTEGER,"
+                + CHANGE_TYPE_OF_ENTITY + " INTEGER " + ")";
+        db.execSQL(CREATE_CHANGES_TABLE);
+	}
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, PepperNoteActivity!</string>
+    <string name="app_name">PepperNote</string>
+    <string name="search">Search</string>
+    <string name="add">Add</string>
+    <string name="loading_notebooks">Loading Notebooks</string>
+    <string name="notebooks">Notebooks</string>
+    <string name="sign_in">Sign in</string>
+    <string name="add_server">Add server</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="sync">Sync</string>
+    <string name="empty_notebooks_list">Don\'t have any notebooks.\nTry Sync or Add new!</string>
+    <string name="rename_notebook">Rename</string>
+    <string name="delete_notebook">Delete</string>
+    <color name="red">#C00000</color>
+    <color name="white">#FFF</color>
+    <color name="black">#000000</color>
+    <string name="empty_notes_list">Empty notebook\nAdd new notes</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="new_note">New note</string>
+    <string name="save">Save</string>
+    <string name="edit_note">Edit note</string>
+    <string name="sign_out">Sign out</string>
+    <string name="options">Options</string>
+
+</resources>
