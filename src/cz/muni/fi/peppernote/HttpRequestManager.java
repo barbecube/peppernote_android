@@ -35,7 +35,7 @@ public class HttpRequestManager {
 	public HttpRequestManager(String server) {
 		this.server = server;
 	}
-
+	
 	public String readInputStream(InputStream in) throws IOException{
 		InputStream instream = in;
 		BufferedReader reader = new BufferedReader(new InputStreamReader(instream));
@@ -138,7 +138,7 @@ public class HttpRequestManager {
 			}		
 		return response_nb;
 	};
-		
+	
 	public Notebook updateNotebook(Notebook notebook) throws JSONException, ClientProtocolException, IOException, NotFoundException, BadRequestException, ConflictException{
 		String URL = server + "/notebooks/" + notebook.get_server_id() + ".json?" +
 				"version=" + notebook.get_version() + "&auth_token=" + token;

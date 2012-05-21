@@ -284,21 +284,7 @@ public class PepperNoteManager {
 		notebook.set_id(databaseManager.addNotebook(notebook));	
 		createChange(notebook.get_id(), 0, Change.CREATE_CHANGE, NOTEBOOK_ENTITY);
 		notebooks.add(notebook);
-		return notebook;
-		/*
-		if(isOnline) {
-			 Notebook server_nb = createNotebookOnServer(notebook);
-			 server_nb.set_id(notebook.get_id());
-			 server_nb.set_server(pepperNoteServer.get_id());
-			 databaseManager.updateNotebook(server_nb);
-			 notebooks.add(server_nb);
-			 return server_nb;
-		} else {
-			createChange(notebook.get_id(), 0, Change.CREATE_CHANGE, NOTEBOOK_ENTITY);
-			notebooks.add(notebook);
-			return notebook;
-		}
-		*/		
+		return notebook;	
 	};
 	
 	public Notebook createNotebookOnServer(Notebook notebook) throws JSONException{
@@ -332,21 +318,6 @@ public class PepperNoteManager {
 			updateChange(previousChange);
 		}
 		return notebook;
-		/*
-		if(isOnline) {
-			return deleteNotebookOnServer(notebook, previousChange);
-		} else {
-			if(previousChange == null){				
-				createChange(notebook.get_server_id(), notebook.get_version(), Change.DELETE_CHANGE, NOTEBOOK_ENTITY);
-			} else if(previousChange.get_type_of_change() == Change.CREATE_CHANGE){
-				//changes.remove(previousChange);
-				deleteChange(previousChange);
-			} else if(previousChange.get_type_of_change() == Change.UPDATE_CHANGE){
-				previousChange.set_type_of_change(Change.DELETE_CHANGE);
-			}
-			return notebook;
-		}
-		*/
 	};
 	public Notebook deleteNotebookOnServer(Notebook notebook, Change previousChange) throws JSONException {
 		try {
@@ -389,21 +360,6 @@ public class PepperNoteManager {
 			removeExistingConflict(notebook.get_id(), NOTEBOOK_ENTITY);
 		}
 		return notebook;
-		/*
-		if(isOnline) {
-			Notebook nb_saved =  updateNotebookOnServer(notebook, previousChange);
-			nb_saved.set_id(notebook.get_id());
-			nb_saved.set_server(notebook.get_server());
-			databaseManager.updateNotebook(nb_saved);
-			notebooks.set(notebooks.indexOf(notebook), nb_saved);
-			return nb_saved;
-		} else {
-			if(previousChange == null){
-				createChange(notebook.get_id(), notebook.get_version(), Change.UPDATE_CHANGE, NOTEBOOK_ENTITY);
-			}
-			return notebook;
-		}
-		*/
 	};
 	public Notebook updateNotebookOnServer(Notebook notebook, Change previousChange) throws JSONException{
 		try {
@@ -443,18 +399,6 @@ public class PepperNoteManager {
 		note.set_id(databaseManager.addNote(note));
 		createChange(note.get_id(), 0, Change.CREATE_CHANGE, NOTE_ENTITY);
 		return note;
-		/*
-		if(isOnline) {
-			Note returned = createNoteOnServer(note, nb);
-			returned.set_id(note.get_id());
-			returned.set_notebook_id(nb.get_id());
-			databaseManager.updateNote(returned);
-			return returned;
-		} else {
-			createChange(note.get_id(), 0, Change.CREATE_CHANGE, NOTE_ENTITY);
-			return note;
-		}
-		*/
 	};
 	public Note createNoteOnServer(Note note, Notebook nb) throws JSONException{
 		try {
@@ -489,21 +433,6 @@ public class PepperNoteManager {
 			updateChange(previousChange);
 		}
 		return note;
-		/*
-		if(isOnline){
-				return deleteNoteOnServer(note, previousChange);	
-		} else {
-			if(previousChange == null){				
-				createChange(note.get_server_id(), note.get_version(), Change.DELETE_CHANGE, NOTE_ENTITY);
-			} else if(previousChange.get_type_of_change() == Change.CREATE_CHANGE){
-				//changes.remove(previousChange);
-				deleteChange(previousChange);
-			} else if(previousChange.get_type_of_change() == Change.UPDATE_CHANGE){
-				previousChange.set_type_of_change(Change.DELETE_CHANGE);
-			}
-			return note;
-		}
-		*/
 	};
 	public Note deleteNoteOnServer(Note note, Change previousChange) throws JSONException{
 		try {
@@ -545,20 +474,6 @@ public class PepperNoteManager {
 			removeExistingConflict(note.get_id(), NOTE_ENTITY);
 		}
 		return note;
-		/*
-		if(isOnline){
-			Note server_note = updateNoteOnServer(note, previousChange);
-			server_note.set_id(note.get_id());
-			server_note.set_notebook_id(note.get_notebook_id());
-			databaseManager.updateNote(server_note);
-			return server_note;
-		} else {
-			if(previousChange == null){
-				createChange(note.get_id(), note.get_version(), Change.UPDATE_CHANGE, NOTE_ENTITY);
-			}
-			return note;
-		}
-		*/
 	};
 	public Note updateNoteOnServer(Note note, Change previousChange) throws JSONException{
 		try {
@@ -615,11 +530,7 @@ public class PepperNoteManager {
 	public List<Change> getChanges() {
 		return getChangesFromDB();
 	}
-/*
-	public void setChanges(List<Change> changes) {
-		this.changes = changes;
-	}
-*/
+
 	public List<ServerConflict> getConflicts() {
 		return conflicts;
 	}
